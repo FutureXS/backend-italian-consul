@@ -1,14 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { UserDto } from './dtos/user.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from './schemas/user.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-  public async findOne(email: string) {
-    email = 'victornogu80@gmail.com';
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-    return {
-      id: 1,
-      email,
-      password: '123456',
-    };
+  public async findOne(email: string) {
+    return await this.userModel
+      .findOne({
+        email,
+      })
+      .exec();
+  }
+
+  public async create(userDto: UserDto) {
+    const user = new this.userModel({
+      ...userDto,
+      password: bcrypt.hashSync(userDto?.password, 10),
+    });
+    return await user.save();
   }
 }
