@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RolesGuard } from './roles/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { DocumentsModule } from './documents/documents.module';
+import { RelativesModule } from './relatives/relatives.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DocumentsModule } from './documents/documents.module';
       },
     ),
     DocumentsModule,
+    RelativesModule,
   ],
   providers: [
     {
