@@ -7,10 +7,14 @@ import {
   Body,
   Get,
   Query,
+  Delete,
+  Param,
+  Patch,
 } from '@nestjs/common';
 import { ApplicantsService } from './applicants.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateApplicantDto } from './dtos/create-applicant.dto';
+import { UpdateApplicantDto } from './dtos/update-applicant.dto';
 
 @Controller('applicants')
 export class ApplicantsController {
@@ -33,6 +37,31 @@ export class ApplicantsController {
   public async create(@Body() applicantDto: CreateApplicantDto) {
     try {
       return await this.applicantsService.create(applicantDto);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch(':id')
+  public async update(
+    @Param('id') id: string,
+    @Body() applicantDto: UpdateApplicantDto,
+  ) {
+    try {
+      return await this.applicantsService.update(id, applicantDto);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Delete(':id')
+  public async delete(@Param('id') id: string) {
+    try {
+      return await this.applicantsService.delete(id);
     } catch (e) {
       throw e;
     }

@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Applicant } from './schemas/applicant.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateApplicantDto } from './dtos/create-applicant.dto';
+import { UpdateApplicantDto } from './dtos/update-applicant.dto';
 
 @Injectable()
 export class ApplicantsService {
@@ -32,7 +33,17 @@ export class ApplicantsService {
     return await applicant.save();
   }
 
+  public async update(id: string, applicantDto: UpdateApplicantDto) {
+    return await this.applicantModel
+      .findByIdAndUpdate(new Types.ObjectId(id), applicantDto)
+      .exec();
+  }
+
   public async findApplicant(id: string) {
     return await this.applicantModel.findById(id);
+  }
+
+  public async delete(id: string) {
+    return this.applicantModel.findByIdAndDelete(id).exec();
   }
 }
