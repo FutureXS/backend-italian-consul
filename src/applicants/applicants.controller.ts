@@ -57,7 +57,7 @@ export class ApplicantsController {
   }
 
   @UseGuards(AuthGuard)
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
   public async delete(@Param('id') id: string) {
     try {

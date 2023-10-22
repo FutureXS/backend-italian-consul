@@ -14,7 +14,7 @@ export class ApplicantsService {
   public async getAll(skip = 0, limit = 10) {
     const count = await this.applicantModel.countDocuments().exec();
     const totalPages = Math.ceil(count / limit);
-    const documents = await this.applicantModel
+    const applicants = await this.applicantModel
       .find()
       .skip(skip)
       .limit(limit)
@@ -24,7 +24,7 @@ export class ApplicantsService {
       .exec();
     return {
       totalPages,
-      documents,
+      applicants,
     };
   }
 
