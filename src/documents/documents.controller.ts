@@ -7,15 +7,29 @@ import {
   Param,
   ParseFilePipeBuilder,
   Post,
+  Delete,
   Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  Patch,
 } from '@nestjs/common';
 import { DocumentsService } from './documents.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateDocumentDto } from './dtos/create-document.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+
+const pipeFileValidation = new ParseFilePipeBuilder()
+  .addFileTypeValidator({
+    fileType: /(jpg|jpeg|png|pdf)$/,
+  })
+  .addMaxSizeValidator({
+    maxSize: 15 * 1024 * 1024,
+    message: 'File must be less than 15MB',
+  })
+  .build({
+    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+  });
 
 @Controller('documents')
 export class DocumentsController {
@@ -38,19 +52,7 @@ export class DocumentsController {
   @Post()
   public async create(
     @Body() documentDto: CreateDocumentDto,
-    @UploadedFile(
-      new ParseFilePipeBuilder()
-        .addFileTypeValidator({
-          fileType: /(jpg|jpeg|png|pdf)$/,
-        })
-        .addMaxSizeValidator({
-          maxSize: 15 * 1024 * 1024,
-          message: 'File must be less than 15MB',
-        })
-        .build({
-          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-        }),
-    )
+    @UploadedFile(pipeFileValidation)
     file: Express.Multer.File,
   ) {
     try {
@@ -66,6 +68,33 @@ export class DocumentsController {
   public async getAllByApplicant(@Param('applicantId') applicantId: string) {
     try {
       return await this.documentsService.getAllByApplicant(applicantId);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':documentId')
+  public async delete(@Param('documentId') documentId: string) {
+    try {
+      return await this.documentsService.delete(documentId);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseInterceptors(FileInterceptor('file'))
+  @Patch(':documentId')
+  public async update(
+    @Param('documentId') documentId: string,
+    @UploadedFile(pipeFileValidation)
+    file: Express.Multer.File,
+  ) {
+    try {
+      return await this.documentsService.update(documentId, file);
     } catch (e) {
       throw e;
     }

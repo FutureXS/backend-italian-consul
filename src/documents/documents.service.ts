@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Document } from './schemas/document.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateDocumentDto } from './dtos/create-document.dto';
 import { ApplicantsService } from 'src/applicants/applicants.service';
 
@@ -53,6 +53,20 @@ export class DocumentsService {
     return await this.documentModel
       .find({
         applicant: applicantId,
+      })
+      .exec();
+  }
+
+  public async delete(id: string) {
+    return await this.documentModel
+      .findByIdAndDelete(new Types.ObjectId(id))
+      .exec();
+  }
+
+  public async update(id: string, file: Express.Multer.File) {
+    return await this.documentModel
+      .findByIdAndUpdate(new Types.ObjectId(id), {
+        file,
       })
       .exec();
   }
