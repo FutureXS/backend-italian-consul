@@ -35,6 +35,10 @@ export class UsersService {
       .exec();
   }
 
+  public async getById(id: string) {
+    return await this.userModel.findById(new Types.ObjectId(id)).exec();
+  }
+
   public async create(userDto: CreateUserDto) {
     const user = new this.userModel({
       ...userDto,

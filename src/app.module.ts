@@ -5,6 +5,7 @@ import { ApplicantsModule } from './applicants/applicants.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolesGuard } from './roles/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { DocumentsModule } from './documents/documents.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { APP_GUARD } from '@nestjs/core';
         dbName: 'consul',
       },
     ),
+    DocumentsModule,
   ],
   providers: [
     {

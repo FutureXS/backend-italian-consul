@@ -36,6 +36,18 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Roles(Role.ADMIN)
+  @HttpCode(HttpStatus.OK)
+  @Get(':id')
+  public async getById(@Param('id') id: string) {
+    try {
+      return await this.usersService.getById(id);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Roles(Role.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   @Post()
   public async create(@Body() userDto: CreateUserDto) {
