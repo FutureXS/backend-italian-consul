@@ -58,6 +58,14 @@ export class DocumentsService {
       .exec();
   }
 
+  public async getAllByRelative(relativeId: string) {
+    return await this.documentModel
+      .find({
+        relative: relativeId,
+      })
+      .exec();
+  }
+
   public async delete(id: string) {
     return await this.documentModel
       .findByIdAndDelete(new Types.ObjectId(id))

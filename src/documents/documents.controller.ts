@@ -74,6 +74,17 @@ export class DocumentsController {
   }
 
   @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get('relative/:relativeId')
+  public async getAllByRelative(@Param('relativeId') relativeId: string) {
+    try {
+      return await this.documentsService.getAllByRelative(relativeId);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':documentId')
   public async delete(@Param('documentId') documentId: string) {
