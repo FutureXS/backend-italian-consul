@@ -3,3 +3,5 @@ enum RecordType {
   WEDDING = 'WEDDING',
   DEATH = 'DEATH',
 }
+
+export default RecordType;

@@ -22,7 +22,7 @@ export class DocumentsService {
       .sort({
         created_at: 'desc',
       })
-      .populate('applicant')
+      .populate(['applicant', 'relative'])
       .exec();
     return {
       totalPages,
@@ -43,6 +43,7 @@ export class DocumentsService {
     }
 
     const document = new this.documentModel({
+      ...documentDto,
       file: file,
       applicant: applicant?.id,
     });
