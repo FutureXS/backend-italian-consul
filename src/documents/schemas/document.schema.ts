@@ -33,6 +33,192 @@ export class Document {
   type: RecordType;
 
   @Prop({
+    required: false,
+  })
+  registered_person: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    city: string;
+    state: string;
+    country: string;
+  };
+
+  // @Prop({
+  //   required: false,
+  // })
+  // registration_data: any;
+
+  @Prop({
+    required: false,
+  })
+  father_data: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    age: number;
+    city: string;
+    state: string;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  mother_data: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    age: number;
+    city: string;
+    state: string;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  paternal_grandfather_data: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    is_alive: boolean;
+    death_date: Date;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  paternal_grandmother_data: {
+    first_name: string;
+    last_name: string;
+    is_alive: boolean;
+    death_date: Date;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  maternal_grandfather_data: {
+    first_name: string;
+    last_name: string;
+    is_alive: boolean;
+    death_date: Date;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  maternal_grandmother_data: {
+    first_name: string;
+    last_name: string;
+    is_alive: boolean;
+    death_date: Date;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  extra_data: {
+    marital_status: string;
+    spouses_name: string;
+    list_of_children: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  marriage_data: {
+    type: string;
+    marriage_date: Date;
+    city: string;
+    state: string;
+    country: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  groom_data: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    age: number;
+    city: string;
+    state: string;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  groom_father_data: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    age: number;
+    city: string;
+    state: string;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  groom_mother_data: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    age: number;
+    city: string;
+    state: string;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  bride_data: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    age: number;
+    city: string;
+    state: string;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  bride_father_data: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    age: number;
+    city: string;
+    state: string;
+    nationality: string;
+  };
+
+  @Prop({
+    required: false,
+  })
+  bride_mother_data: {
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
+    age: number;
+    city: string;
+    state: string;
+    nationality: string;
+  };
+
+  @Prop({
     default: Date.now(),
   })
   created_at: Date;
