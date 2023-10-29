@@ -20,7 +20,7 @@ export class RelativesService {
       .sort({
         created_at: 'desc',
       })
-      .populate('applicant')
+      .populate(['applicant', 'relatives', 'father', 'mother'])
       .exec();
     return {
       totalPages,
@@ -29,7 +29,10 @@ export class RelativesService {
   }
 
   public async getByApplicant(applicantId: string) {
-    return await this.relativeModel.find({ applicant: applicantId });
+    return await this.relativeModel
+      .find({ applicant: applicantId })
+      .populate(['applicant', 'relatives', 'father', 'mother'])
+      .exec();
   }
 
   public async create(relativeDto: CreateRelativeDto) {

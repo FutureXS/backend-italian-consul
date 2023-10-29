@@ -1,11 +1,12 @@
 import {
-  IsBoolean,
-  IsDateString,
+  IsEmail,
+  IsIn,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
-  ValidateIf,
+  IsString,
+  IsUrl,
 } from 'class-validator';
+import Gender from '../enums/gender.enum';
 
 export class CreateRelativeDto {
   @IsNotEmpty({
@@ -13,64 +14,54 @@ export class CreateRelativeDto {
   })
   name: string;
 
-  @IsNotEmpty({
-    message: 'Last name is required',
+  @IsIn([Gender.MALE, Gender.FEMALE], {
+    message: 'Gender must be MALE or FEMALE',
   })
-  last_name: string;
+  @IsNotEmpty({
+    message: 'Gender is required',
+  })
+  gender: Gender;
 
   @IsNotEmpty({
-    message: 'Birthday is required',
+    message: 'Phone is required',
   })
-  @IsDateString(undefined, {
-    message: 'Birthday must be a date',
+  phone: string;
+
+  @IsNotEmpty({
+    message: 'Email is required',
+  })
+  @IsEmail(undefined, {
+    message: 'Email is invalid',
+  })
+  email: string;
+
+  @IsUrl(undefined, {
+    message: 'Photo is invalid',
   })
   @IsOptional()
-  birthday: Date;
-
-  @IsNumber(
-    {
-      allowNaN: false,
-      allowInfinity: false,
-    },
-    {
-      message: 'Age must be a number',
-    },
-  )
-  age: number;
-
-  @IsNotEmpty({
-    message: 'City is required',
-  })
-  @IsOptional()
-  city: string;
-
-  @IsNotEmpty({
-    message: 'State is required',
-  })
-  @IsOptional()
-  state: string;
-
-  @IsNotEmpty({
-    message: 'Nationality is required',
-  })
-  nationality: string;
-
-  @IsBoolean({
-    message: 'Is alive must be a boolean',
-  })
-  is_alive: boolean;
-
-  @IsNotEmpty({
-    message: 'Death date is required',
-  })
-  @IsDateString(undefined, {
-    message: 'Death date must be a date',
-  })
-  @ValidateIf((o) => o?.is_alive === false)
-  death_date: Date;
+  photo: string;
 
   @IsNotEmpty({
     message: 'Applicant is required',
   })
   applicant: string;
+
+  @IsOptional()
+  @IsString({
+    message: 'Mother must be a string',
+  })
+  mother: string;
+
+  @IsOptional()
+  @IsString({
+    message: 'Father must be a string',
+  })
+  father: string;
+
+  @IsOptional()
+  @IsString({
+    message: 'Relatives must be an array of strings',
+    each: true,
+  })
+  relatives: string[];
 }

@@ -1,9 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, ParseFilePipeBuilder } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Document } from './schemas/document.schema';
 import { Model, Types } from 'mongoose';
 import { CreateDocumentDto } from './dtos/create-document.dto';
 import { ApplicantsService } from 'src/applicants/applicants.service';
+
+export const pipeFileValidation = new ParseFilePipeBuilder()
+  .addFileTypeValidator({
+    fileType: /(jpg|jpeg|png|pdf)$/,
+  })
+  .addMaxSizeValidator({
+    maxSize: 15 * 1024 * 1024,
+    message: 'File must be less than 15MB',
+  })
+  .build({
+    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+  });
 
 @Injectable()
 export class DocumentsService {

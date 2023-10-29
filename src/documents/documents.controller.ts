@@ -5,7 +5,6 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseFilePipeBuilder,
   Post,
   Delete,
   Query,
@@ -14,22 +13,10 @@ import {
   UseInterceptors,
   Patch,
 } from '@nestjs/common';
-import { DocumentsService } from './documents.service';
+import { DocumentsService, pipeFileValidation } from './documents.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateDocumentDto } from './dtos/create-document.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-
-const pipeFileValidation = new ParseFilePipeBuilder()
-  .addFileTypeValidator({
-    fileType: /(jpg|jpeg|png|pdf)$/,
-  })
-  .addMaxSizeValidator({
-    maxSize: 15 * 1024 * 1024,
-    message: 'File must be less than 15MB',
-  })
-  .build({
-    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-  });
 
 @Controller('documents')
 export class DocumentsController {

@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Applicant } from 'src/applicants/schemas/applicant.schema';
+import Gender from '../enums/gender.enum';
 
 export type RelativeDocument = HydratedDocument<Relative>;
 
@@ -13,43 +14,24 @@ export class Relative {
 
   @Prop({
     required: true,
+    default: Gender.MALE,
   })
-  last_name: string;
-
-  @Prop({
-    required: false,
-  })
-  birthday: Date;
+  gender: Gender;
 
   @Prop({
     required: true,
   })
-  age: number;
-
-  @Prop({
-    required: false,
-  })
-  city: string;
-
-  @Prop({
-    required: false,
-  })
-  state: string;
+  phone: string;
 
   @Prop({
     required: true,
   })
-  nationality: string;
-
-  @Prop({
-    required: true,
-  })
-  is_alive: boolean;
+  email: string;
 
   @Prop({
     required: false,
   })
-  death_date: Date;
+  photo: string;
 
   @Prop({
     required: true,
@@ -57,6 +39,27 @@ export class Relative {
     ref: 'Applicant',
   })
   applicant: Applicant;
+
+  @Prop({
+    required: false,
+    type: [Types.ObjectId],
+    ref: 'Relative',
+  })
+  relatives: Relative[];
+
+  @Prop({
+    required: false,
+    type: Types.ObjectId,
+    ref: 'Relative',
+  })
+  father: Relative;
+
+  @Prop({
+    required: false,
+    type: Types.ObjectId,
+    ref: 'Relative',
+  })
+  mother: Relative;
 
   @Prop({
     default: Date.now(),
