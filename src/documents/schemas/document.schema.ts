@@ -10,6 +10,7 @@ export type DocumentDocument = HydratedDocument<Document>;
 export class Document {
   @Prop({
     required: true,
+    type: Types.Map,
   })
   file: File;
 
@@ -34,6 +35,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   registered_person: {
     first_name: string;
@@ -51,6 +53,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   father_data: {
     first_name: string;
@@ -64,6 +67,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   mother_data: {
     first_name: string;
@@ -77,6 +81,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   paternal_grandfather_data: {
     first_name: string;
@@ -89,6 +94,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   paternal_grandmother_data: {
     first_name: string;
@@ -100,6 +106,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   maternal_grandfather_data: {
     first_name: string;
@@ -111,6 +118,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   maternal_grandmother_data: {
     first_name: string;
@@ -122,6 +130,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   extra_data: {
     marital_status: string;
@@ -131,6 +140,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   marriage_data: {
     type: string;
@@ -142,6 +152,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   groom_data: {
     first_name: string;
@@ -155,6 +166,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   groom_father_data: {
     first_name: string;
@@ -168,6 +180,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   groom_mother_data: {
     first_name: string;
@@ -181,6 +194,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   bride_data: {
     first_name: string;
@@ -194,6 +208,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   bride_father_data: {
     first_name: string;
@@ -207,6 +222,7 @@ export class Document {
 
   @Prop({
     required: false,
+    type: Types.Map,
   })
   bride_mother_data: {
     first_name: string;
