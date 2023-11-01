@@ -32,6 +32,18 @@ export class ApplicantsController {
   }
 
   @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get(':id')
+  public async getById(@Param('id') id: string) {
+    try {
+      return await this.applicantsService.findApplicant(id);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.CREATED)
   @Post()
   public async create(@Body() applicantDto: CreateApplicantDto) {
