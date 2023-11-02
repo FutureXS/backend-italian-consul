@@ -1,12 +1,19 @@
 import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
   IsEmail,
   IsIn,
   IsNotEmpty,
+  IsNotEmptyObject,
   IsOptional,
   IsString,
   IsUrl,
+  ValidateNested,
 } from 'class-validator';
 import Gender from '../enums/gender.enum';
+import { DocumentDto } from './document.dto';
+import { Type } from 'class-transformer';
 
 export class CreateRelativeDto {
   @IsNotEmpty({
@@ -64,4 +71,19 @@ export class CreateRelativeDto {
     each: true,
   })
   relatives: string[];
+
+  @Type(() => DocumentDto)
+  @ValidateNested({
+    each: true,
+  })
+  @ArrayMaxSize(3, {
+    message: 'Documents must be less than 3',
+  })
+  @ArrayMinSize(3, {
+    message: 'Documents must be at least 3',
+  })
+  @IsArray({
+    message: 'Documents must be an array',
+  })
+  documents_data: DocumentDto[];
 }

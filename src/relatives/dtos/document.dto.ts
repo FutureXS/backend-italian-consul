@@ -1,42 +1,29 @@
+import { Type } from 'class-transformer';
 import {
   IsIn,
   IsNotEmpty,
   IsNotEmptyObject,
-  IsOptional,
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
-import RecordType from '../../relatives/enums/record-type.enum';
-import { RegisteredPersonDto } from './registered-person.dto';
-import { Type } from 'class-transformer';
-// import { RegistrationDto } from './registration.dto';
+import RecordType from '../enums/record-type.enum';
+import { BrideFatherDto } from './bride-father.dto';
+import { BrideMotherDto } from './bride-mother.dto';
+import { BrideDto } from './bride.dto';
+import { ExtraDto } from './extra.dto';
 import { FatherDto } from './father.dto';
+import { GroomFatherDto } from './groom-father.dto';
+import { GroomMotherDto } from './groom-mother.dto';
+import { GroomDto } from './groom.dto';
+import { MarriageDto } from './marriage.dto';
+import { MaternalGrandfatherDto } from './maternal-grandfather.dto';
+import { MaternalGrandmotherDto } from './maternal-grandmother.dto';
 import { MotherDto } from './mother.dto';
 import { PaternalGrandfatherDto } from './paternal-grandfather.dto';
 import { PaternalGrandmotherDto } from './paternal-grandmother.dto';
-import { MaternalGrandfatherDto } from './maternal-grandfather.dto';
-import { MaternalGrandmotherDto } from './maternal-grandmother.dto';
-import { ExtraDto } from './extra.dto';
-import { MarriageDto } from './marriage.dto';
-import { BrideMotherDto } from './bride-mother.dto';
-import { BrideFatherDto } from './bride-father.dto';
-import { BrideDto } from './bride.dto';
-import { GroomMotherDto } from './groom-mother.dto';
-import { GroomFatherDto } from './groom-father.dto';
-import { GroomDto } from './groom.dto';
+import { RegisteredPersonDto } from './registered-person.dto';
 
-export class CreateDocumentDto {
-  @IsNotEmpty({
-    message: 'Applicant is required',
-  })
-  applicant: string;
-
-  @IsNotEmpty({
-    message: 'Relative is required if provided',
-  })
-  @IsOptional()
-  relative: string;
-
+export class DocumentDto {
   @IsNotEmpty({
     message: 'Type is required',
   })

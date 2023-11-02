@@ -5,7 +5,6 @@ import { ApplicantsModule } from './applicants/applicants.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolesGuard } from './roles/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
-import { DocumentsModule } from './documents/documents.module';
 import { RelativesModule } from './relatives/relatives.module';
 
 @Module({
@@ -19,7 +18,6 @@ import { RelativesModule } from './relatives/relatives.module';
         dbName: 'consul',
       },
     ),
-    DocumentsModule,
     RelativesModule,
   ],
   providers: [

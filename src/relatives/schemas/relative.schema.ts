@@ -62,6 +62,30 @@ export class Relative {
   mother: Relative;
 
   @Prop({
+    required: true,
+    type: Types.Map,
+  })
+  documents_data: any;
+
+  @Prop({
+    required: true,
+    type: Types.Map,
+  })
+  birth_document: File;
+
+  @Prop({
+    required: true,
+    type: Types.Map,
+  })
+  wedding_document: File;
+
+  @Prop({
+    required: true,
+    type: Types.Map,
+  })
+  death_document: File;
+
+  @Prop({
     default: Date.now(),
   })
   created_at: Date;
