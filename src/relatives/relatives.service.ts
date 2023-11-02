@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Relative } from './schemas/relative.schema';
 import { Model } from 'mongoose';
 import { CreateRelativeDto } from './dtos/create-relative.dto';
+import { UpdateRelativeDto } from './dtos/update-relative.dto';
 
 export const pipeFileValidation = new ParseFilePipeBuilder()
   .addFileTypeValidator({
@@ -74,6 +75,38 @@ export class RelativesService {
         death_document: files.death_document,
       }),
     });
+
+    return await relative.save();
+  }
+
+  public async update(
+    relativeId: string,
+    relativeDto: UpdateRelativeDto,
+    files: {
+      birth_document?: Express.Multer.File[];
+      wedding_document?: Express.Multer.File[];
+      death_document?: Express.Multer.File[];
+    },
+  ) {
+    const relative = await this.relativeModel.findById(relativeId).exec();
+
+    if (!relative) {
+      throw new Error('Relative not found');
+    }
+
+    relative.set({
+      ...relativeDto,
+      ...(files?.birth_document && {
+        birth_document: files.birth_document,
+      }),
+      ...(files?.wedding_document && {
+        wedding_document: files.wedding_document,
+      }),
+      ...(files?.death_document && {
+        death_document: files.death_document,
+      }),
+    });
+
     return await relative.save();
   }
 }

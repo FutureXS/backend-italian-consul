@@ -1,23 +1,24 @@
+import { Type } from 'class-transformer';
 import {
+  IsNotEmpty,
+  IsIn,
+  IsEmail,
+  IsUrl,
+  IsOptional,
+  IsString,
+  ValidateNested,
   ArrayMaxSize,
   ArrayMinSize,
   IsArray,
-  IsEmail,
-  IsIn,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUrl,
-  ValidateNested,
 } from 'class-validator';
 import Gender from '../enums/gender.enum';
 import { DocumentDto } from './document.dto';
-import { Type } from 'class-transformer';
 
-export class CreateRelativeDto {
+export class UpdateRelativeDto {
   @IsNotEmpty({
     message: 'Name is required',
   })
+  @IsOptional()
   name: string;
 
   @IsIn([Gender.MALE, Gender.FEMALE], {
@@ -26,11 +27,13 @@ export class CreateRelativeDto {
   @IsNotEmpty({
     message: 'Gender is required',
   })
+  @IsOptional()
   gender: Gender;
 
   @IsNotEmpty({
     message: 'Phone is required',
   })
+  @IsOptional()
   phone: string;
 
   @IsNotEmpty({
@@ -39,6 +42,7 @@ export class CreateRelativeDto {
   @IsEmail(undefined, {
     message: 'Email is invalid',
   })
+  @IsOptional()
   email: string;
 
   @IsUrl(undefined, {
@@ -84,5 +88,6 @@ export class CreateRelativeDto {
   @IsArray({
     message: 'Documents must be an array',
   })
+  @IsOptional()
   documents_data: DocumentDto[];
 }

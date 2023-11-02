@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
   UploadedFiles,
@@ -16,6 +17,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateRelativeDto } from './dtos/create-relative.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import DocumentType from './enums/document-type.enum';
+import { UpdateRelativeDto } from './dtos/update-relative.dto';
 
 @Controller('relatives')
 export class RelativesController {
@@ -84,6 +86,42 @@ export class RelativesController {
   ) {
     try {
       return await this.relativesService.create(relativeDto, files);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch(':relativeId')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      {
+        name: DocumentType.BIRTH_DOCUMENT,
+        maxCount: 1,
+      },
+      {
+        name: DocumentType.WEDDING_DOCUMENT,
+        maxCount: 1,
+      },
+      {
+        name: DocumentType.DEATH_DOCUMENT,
+        maxCount: 1,
+      },
+    ]),
+  )
+  public async update(
+    @Param('relativeId') relativeId: string,
+    @Body() relativeDto: UpdateRelativeDto,
+    @UploadedFiles(pipeFileValidation)
+    files: {
+      birth_document?: Express.Multer.File[];
+      wedding_document?: Express.Multer.File[];
+      death_document?: Express.Multer.File[];
+    },
+  ) {
+    try {
+      return await this.relativesService.update(relativeId, relativeDto, files);
     } catch (e) {
       throw e;
     }
