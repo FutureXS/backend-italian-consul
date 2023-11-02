@@ -44,6 +44,17 @@ export class RelativesController {
   }
 
   @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get(':relativeId')
+  public async getRelative(@Param('relativeId') relativeId: string) {
+    try {
+      return await this.relativesService.getRelative(relativeId);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.CREATED)
   @Post()
   @UseInterceptors(

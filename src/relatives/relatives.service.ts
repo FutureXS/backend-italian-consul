@@ -47,6 +47,13 @@ export class RelativesService {
       .exec();
   }
 
+  public async getRelative(relativeId: string) {
+    return await this.relativeModel
+      .findById(relativeId)
+      .populate(['applicant', 'relatives', 'father', 'mother'])
+      .exec();
+  }
+
   public async create(
     relativeDto: CreateRelativeDto,
     files: {

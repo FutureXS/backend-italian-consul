@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Applicant } from 'src/applicants/schemas/applicant.schema';
 import Gender from '../enums/gender.enum';
+import { File } from 'buffer';
 
 export type RelativeDocument = HydratedDocument<Relative>;
 
