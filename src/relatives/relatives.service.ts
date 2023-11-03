@@ -53,13 +53,13 @@ export class RelativesService {
   ) {
     const relative = new this.relativeModel({
       ...relativeDto,
-      ...(files?.birth_document && {
+      ...(files?.birth_document?.length && {
         birth_document: files.birth_document[0],
       }),
-      ...(files?.wedding_document && {
+      ...(files?.wedding_document?.length && {
         wedding_document: files.wedding_document[0],
       }),
-      ...(files?.death_document && {
+      ...(files?.death_document?.length && {
         death_document: files.death_document[0],
       }),
     });
@@ -84,13 +84,13 @@ export class RelativesService {
 
     relative.set({
       ...relativeDto,
-      ...(files?.birth_document && {
+      ...(files?.birth_document?.length && {
         birth_document: files.birth_document[0],
       }),
-      ...(files?.wedding_document && {
+      ...(files?.wedding_document?.length && {
         wedding_document: files.wedding_document[0],
       }),
-      ...(files?.death_document && {
+      ...(files?.death_document?.length && {
         death_document: files.death_document[0],
       }),
     });
