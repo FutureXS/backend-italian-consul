@@ -12,12 +12,13 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { RelativesService, pipeFileValidation } from './relatives.service';
+import { RelativesService } from './relatives.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateRelativeDto } from './dtos/create-relative.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import DocumentType from './enums/document-type.enum';
 import { UpdateRelativeDto } from './dtos/update-relative.dto';
+import { FileValidationDocumentsPipe } from './pipes/file-validation-documents.pipe';
 
 @Controller('relatives')
 export class RelativesController {
@@ -77,7 +78,7 @@ export class RelativesController {
   )
   public async create(
     @Body() relativeDto: CreateRelativeDto,
-    @UploadedFiles(pipeFileValidation)
+    @UploadedFiles(new FileValidationDocumentsPipe())
     files: {
       birth_document?: Express.Multer.File[];
       wedding_document?: Express.Multer.File[];
@@ -113,7 +114,7 @@ export class RelativesController {
   public async update(
     @Param('relativeId') relativeId: string,
     @Body() relativeDto: UpdateRelativeDto,
-    @UploadedFiles(pipeFileValidation)
+    @UploadedFiles(new FileValidationDocumentsPipe(true))
     files: {
       birth_document?: Express.Multer.File[];
       wedding_document?: Express.Multer.File[];

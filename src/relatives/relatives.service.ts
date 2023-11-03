@@ -5,18 +5,6 @@ import { Model } from 'mongoose';
 import { CreateRelativeDto } from './dtos/create-relative.dto';
 import { UpdateRelativeDto } from './dtos/update-relative.dto';
 
-export const pipeFileValidation = new ParseFilePipeBuilder()
-  .addFileTypeValidator({
-    fileType: /(jpg|jpeg|png|pdf)$/,
-  })
-  .addMaxSizeValidator({
-    maxSize: 3 * 1024 * 1024,
-    message: 'File must be less than 3MB',
-  })
-  .build({
-    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-  });
-
 @Injectable()
 export class RelativesService {
   constructor(
@@ -66,13 +54,13 @@ export class RelativesService {
     const relative = new this.relativeModel({
       ...relativeDto,
       ...(files?.birth_document && {
-        birth_document: files.birth_document,
+        birth_document: files.birth_document[0],
       }),
       ...(files?.wedding_document && {
-        wedding_document: files.wedding_document,
+        wedding_document: files.wedding_document[0],
       }),
       ...(files?.death_document && {
-        death_document: files.death_document,
+        death_document: files.death_document[0],
       }),
     });
 
@@ -97,13 +85,13 @@ export class RelativesService {
     relative.set({
       ...relativeDto,
       ...(files?.birth_document && {
-        birth_document: files.birth_document,
+        birth_document: files.birth_document[0],
       }),
       ...(files?.wedding_document && {
-        wedding_document: files.wedding_document,
+        wedding_document: files.wedding_document[0],
       }),
       ...(files?.death_document && {
-        death_document: files.death_document,
+        death_document: files.death_document[0],
       }),
     });
 
