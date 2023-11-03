@@ -20,6 +20,21 @@ import DocumentType from './enums/document-type.enum';
 import { UpdateRelativeDto } from './dtos/update-relative.dto';
 import { FileValidationDocumentsPipe } from './pipes/file-validation-documents.pipe';
 
+const filesInterceptorArray = [
+  {
+    name: DocumentType.BIRTH_DOCUMENT,
+    maxCount: 1,
+  },
+  {
+    name: DocumentType.WEDDING_DOCUMENT,
+    maxCount: 1,
+  },
+  {
+    name: DocumentType.DEATH_DOCUMENT,
+    maxCount: 1,
+  },
+];
+
 @Controller('relatives')
 export class RelativesController {
   constructor(private relativesService: RelativesService) {}
@@ -60,22 +75,7 @@ export class RelativesController {
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      {
-        name: DocumentType.BIRTH_DOCUMENT,
-        maxCount: 1,
-      },
-      {
-        name: DocumentType.WEDDING_DOCUMENT,
-        maxCount: 1,
-      },
-      {
-        name: DocumentType.DEATH_DOCUMENT,
-        maxCount: 1,
-      },
-    ]),
-  )
+  @UseInterceptors(FileFieldsInterceptor(filesInterceptorArray))
   public async create(
     @Body() relativeDto: CreateRelativeDto,
     @UploadedFiles(new FileValidationDocumentsPipe())
@@ -95,22 +95,7 @@ export class RelativesController {
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':relativeId')
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      {
-        name: DocumentType.BIRTH_DOCUMENT,
-        maxCount: 1,
-      },
-      {
-        name: DocumentType.WEDDING_DOCUMENT,
-        maxCount: 1,
-      },
-      {
-        name: DocumentType.DEATH_DOCUMENT,
-        maxCount: 1,
-      },
-    ]),
-  )
+  @UseInterceptors(FileFieldsInterceptor(filesInterceptorArray))
   public async update(
     @Param('relativeId') relativeId: string,
     @Body() relativeDto: UpdateRelativeDto,
