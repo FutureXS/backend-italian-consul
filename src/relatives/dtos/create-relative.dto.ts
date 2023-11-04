@@ -28,18 +28,7 @@ export class CreateRelativeDto {
   })
   gender: Gender;
 
-  @IsNotEmpty({
-    message: 'Phone is required',
-  })
-  phone: string;
-
-  @IsNotEmpty({
-    message: 'Email is required',
-  })
-  @IsEmail(undefined, {
-    message: 'Email is invalid',
-  })
-  email: string;
+ 
 
   @IsUrl(undefined, {
     message: 'Photo is invalid',

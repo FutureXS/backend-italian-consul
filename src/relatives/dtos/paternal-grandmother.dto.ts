@@ -16,16 +16,12 @@ export class PaternalGrandmotherDto {
   })
   last_name: string;
 
-  @IsBoolean({
-    message: 'Is alive is required',
-  })
-  is_alive: boolean;
+ 
 
-  @IsDateString(undefined, {
-    message: 'Death date must be a date',
+  @IsNotEmpty({
+    message: 'Age death required',
   })
-  @ValidateIf((o) => !o.is_alive)
-  death_date: Date;
+  age_death: Date;
 
   @IsNotEmpty({
     message: 'Nationality is required',

@@ -30,20 +30,6 @@ export class UpdateRelativeDto {
   @IsOptional()
   gender: Gender;
 
-  @IsNotEmpty({
-    message: 'Phone is required',
-  })
-  @IsOptional()
-  phone: string;
-
-  @IsNotEmpty({
-    message: 'Email is required',
-  })
-  @IsEmail(undefined, {
-    message: 'Email is invalid',
-  })
-  @IsOptional()
-  email: string;
 
   @IsUrl(undefined, {
     message: 'Photo is invalid',
