@@ -20,16 +20,6 @@ export class Relative {
   gender: Gender;
 
   @Prop({
-    required: true,
-  })
-  phone: string;
-
-  @Prop({
-    required: true,
-  })
-  email: string;
-
-  @Prop({
     required: false,
   })
   photo: string;
