@@ -11,6 +11,8 @@ export class FileValidationDocumentsPipe implements PipeTransform {
   constructor(private isPatch = false) {}
 
   async transform(value: any) {
+    this.errors = [];
+
     if (value?.birth_document?.length) {
       this.validateField(value?.birth_document[0]);
     } else if (!this.isPatch) {
