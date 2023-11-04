@@ -2,7 +2,6 @@ import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsIn,
-  IsEmail,
   IsUrl,
   IsOptional,
   IsString,
@@ -29,7 +28,6 @@ export class UpdateRelativeDto {
   })
   @IsOptional()
   gender: Gender;
-
 
   @IsUrl(undefined, {
     message: 'Photo is invalid',

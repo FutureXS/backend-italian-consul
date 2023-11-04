@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class FatherDto {
   @IsNotEmpty({
@@ -11,14 +11,10 @@ export class FatherDto {
   })
   last_name: string;
 
- 
-
   @IsNotEmpty({
     message: 'Age is required',
   })
   age: number;
-
-  
 
   @IsNotEmpty({
     message: 'Nationality is required',

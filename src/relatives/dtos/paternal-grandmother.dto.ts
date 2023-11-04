@@ -1,9 +1,4 @@
-import {
-  IsBoolean,
-  IsDateString,
-  IsNotEmpty,
-  ValidateIf,
-} from 'class-validator';
+import { IsNotEmpty, IsNumberString } from 'class-validator';
 
 export class PaternalGrandmotherDto {
   @IsNotEmpty({
@@ -16,12 +11,13 @@ export class PaternalGrandmotherDto {
   })
   last_name: string;
 
- 
-
   @IsNotEmpty({
-    message: 'Age death required',
+    message: 'Age death is required',
   })
-  age_death: Date;
+  @IsNumberString(undefined, {
+    message: 'Age death must be a number',
+  })
+  age_death: string;
 
   @IsNotEmpty({
     message: 'Nationality is required',

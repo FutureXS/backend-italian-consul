@@ -2,7 +2,6 @@ import {
   ArrayMaxSize,
   ArrayMinSize,
   IsArray,
-  IsEmail,
   IsIn,
   IsNotEmpty,
   IsOptional,
@@ -27,8 +26,6 @@ export class CreateRelativeDto {
     message: 'Gender is required',
   })
   gender: Gender;
-
- 
 
   @IsUrl(undefined, {
     message: 'Photo is invalid',
