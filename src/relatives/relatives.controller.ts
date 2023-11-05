@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Delete,
   Query,
   UploadedFiles,
   UseGuards,
@@ -109,6 +110,17 @@ export class RelativesController {
   ) {
     try {
       return await this.relativesService.update(relativeId, relativeDto, files);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id')
+  public async delete(@Param('id') id: string) {
+    try {
+      return await this.relativesService.delete(id);
     } catch (e) {
       throw e;
     }
