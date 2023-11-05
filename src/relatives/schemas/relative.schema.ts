@@ -59,19 +59,19 @@ export class Relative {
   documents_data: any;
 
   @Prop({
-    required: true,
+    required: false,
     type: Types.Map,
   })
   birth_document: File;
 
   @Prop({
-    required: true,
+    required: false,
     type: Types.Map,
   })
   wedding_document: File;
 
   @Prop({
-    required: true,
+    required: false,
     type: Types.Map,
   })
   death_document: File;

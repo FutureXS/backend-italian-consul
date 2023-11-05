@@ -78,7 +78,7 @@ export class RelativesController {
   @UseInterceptors(FileFieldsInterceptor(filesInterceptorArray))
   public async create(
     @Body() relativeDto: CreateRelativeDto,
-    @UploadedFiles(new FileValidationDocumentsPipe())
+    @UploadedFiles() // new FileValidationDocumentsPipe()
     files: {
       birth_document?: Express.Multer.File[];
       wedding_document?: Express.Multer.File[];
@@ -99,7 +99,7 @@ export class RelativesController {
   public async update(
     @Param('relativeId') relativeId: string,
     @Body() relativeDto: UpdateRelativeDto,
-    @UploadedFiles(new FileValidationDocumentsPipe(true))
+    @UploadedFiles() // new FileValidationDocumentsPipe(true)
     files: {
       birth_document?: Express.Multer.File[];
       wedding_document?: Express.Multer.File[];
