@@ -9,33 +9,15 @@ import {
   Post,
   Delete,
   Query,
-  UploadedFiles,
   UseGuards,
   UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
-import { RelativesService } from './relatives.service';
+import { RelativesService, pipeFileValidation } from './relatives.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateRelativeDto } from './dtos/create-relative.dto';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import DocumentType from './enums/document-type.enum';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateRelativeDto } from './dtos/update-relative.dto';
-import { FileValidationDocumentsPipe } from './pipes/file-validation-documents.pipe';
-import { relative } from 'path';
-
-const filesInterceptorArray = [
-  {
-    name: DocumentType.BIRTH_DOCUMENT,
-    maxCount: 1,
-  },
-  {
-    name: DocumentType.WEDDING_DOCUMENT,
-    maxCount: 1,
-  },
-  {
-    name: DocumentType.DEATH_DOCUMENT,
-    maxCount: 1,
-  },
-];
 
 @Controller('relatives')
 export class RelativesController {
@@ -77,18 +59,23 @@ export class RelativesController {
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  @UseInterceptors(FileFieldsInterceptor(filesInterceptorArray))
+  @UseInterceptors(
+    FileInterceptor('birth_document'),
+    FileInterceptor('wedding_document'),
+    FileInterceptor('death_document'),
+  )
   public async create(
     @Body() relativeDto: CreateRelativeDto,
-    @UploadedFiles() // new FileValidationDocumentsPipe()
-    files: {
-      birth_document?: Express.Multer.File[];
-      wedding_document?: Express.Multer.File[];
-      death_document?: Express.Multer.File[];
-    },
+    @UploadedFile(pipeFileValidation) birth_document: Express.Multer.File,
+    @UploadedFile(pipeFileValidation) wedding_document: Express.Multer.File,
+    @UploadedFile(pipeFileValidation) death_document: Express.Multer.File,
   ) {
     try {
-      return await this.relativesService.create(relativeDto, files);
+      return await this.relativesService.create(relativeDto, {
+        birth_document,
+        wedding_document,
+        death_document,
+      });
     } catch (e) {
       throw e;
     }
@@ -97,19 +84,24 @@ export class RelativesController {
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   @Patch(':relativeId')
-  @UseInterceptors(FileFieldsInterceptor(filesInterceptorArray))
+  @UseInterceptors(
+    FileInterceptor('birth_document'),
+    FileInterceptor('wedding_document'),
+    FileInterceptor('death_document'),
+  )
   public async update(
     @Param('relativeId') relativeId: string,
     @Body() relativeDto: UpdateRelativeDto,
-    @UploadedFiles() // new FileValidationDocumentsPipe(true)
-    files: {
-      birth_document?: Express.Multer.File[];
-      wedding_document?: Express.Multer.File[];
-      death_document?: Express.Multer.File[];
-    },
+    @UploadedFile(pipeFileValidation) birth_document: Express.Multer.File,
+    @UploadedFile(pipeFileValidation) wedding_document: Express.Multer.File,
+    @UploadedFile(pipeFileValidation) death_document: Express.Multer.File,
   ) {
     try {
-      return await this.relativesService.update(relativeId, relativeDto, files);
+      return await this.relativesService.update(relativeId, relativeDto, {
+        birth_document,
+        wedding_document,
+        death_document,
+      });
     } catch (e) {
       throw e;
     }

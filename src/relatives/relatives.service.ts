@@ -5,6 +5,18 @@ import { Model } from 'mongoose';
 import { CreateRelativeDto } from './dtos/create-relative.dto';
 import { UpdateRelativeDto } from './dtos/update-relative.dto';
 
+export const pipeFileValidation = new ParseFilePipeBuilder()
+  .addFileTypeValidator({
+    fileType: /(jpg|jpeg|png|pdf)$/,
+  })
+  .addMaxSizeValidator({
+    maxSize: 3 * 1024 * 1024,
+    message: 'File must be less than 3MB',
+  })
+  .build({
+    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+  });
+
 @Injectable()
 export class RelativesService {
   constructor(
@@ -46,21 +58,21 @@ export class RelativesService {
   public async create(
     relativeDto: CreateRelativeDto,
     files: {
-      birth_document?: Express.Multer.File[];
-      wedding_document?: Express.Multer.File[];
-      death_document?: Express.Multer.File[];
+      birth_document?: Express.Multer.File;
+      wedding_document?: Express.Multer.File;
+      death_document?: Express.Multer.File;
     },
   ) {
     const relative = new this.relativeModel({
       ...relativeDto,
-      ...(files?.birth_document?.length && {
-        birth_document: files.birth_document[0],
+      ...(files?.birth_document && {
+        birth_document: files.birth_document,
       }),
-      ...(files?.wedding_document?.length && {
-        wedding_document: files.wedding_document[0],
+      ...(files?.wedding_document && {
+        wedding_document: files.wedding_document,
       }),
-      ...(files?.death_document?.length && {
-        death_document: files.death_document[0],
+      ...(files?.death_document && {
+        death_document: files.death_document,
       }),
     });
 
@@ -71,9 +83,9 @@ export class RelativesService {
     relativeId: string,
     relativeDto: UpdateRelativeDto,
     files: {
-      birth_document?: Express.Multer.File[];
-      wedding_document?: Express.Multer.File[];
-      death_document?: Express.Multer.File[];
+      birth_document?: Express.Multer.File;
+      wedding_document?: Express.Multer.File;
+      death_document?: Express.Multer.File;
     },
   ) {
     const relative = await this.relativeModel.findById(relativeId).exec();
@@ -84,14 +96,14 @@ export class RelativesService {
 
     relative.set({
       ...relativeDto,
-      ...(files?.birth_document?.length && {
-        birth_document: files.birth_document[0],
+      ...(files?.birth_document && {
+        birth_document: files.birth_document,
       }),
-      ...(files?.wedding_document?.length && {
-        wedding_document: files.wedding_document[0],
+      ...(files?.wedding_document && {
+        wedding_document: files.wedding_document,
       }),
-      ...(files?.death_document?.length && {
-        death_document: files.death_document[0],
+      ...(files?.death_document && {
+        death_document: files.death_document,
       }),
     });
 
@@ -100,5 +112,4 @@ export class RelativesService {
   public async delete(id: string) {
     return this.relativeModel.findByIdAndDelete(id).exec();
   }
-
 }
