@@ -66,9 +66,6 @@ export class UpdateRelativeDto {
   @ArrayMaxSize(3, {
     message: 'Documents must be less than 3',
   })
-  @ArrayMinSize(3, {
-    message: 'Documents must be at least 3',
-  })
   @IsArray({
     message: 'Documents must be an array',
   })
