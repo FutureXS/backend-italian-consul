@@ -109,6 +109,7 @@ export class RelativesService {
 
     return await relative.save();
   }
+
   public async delete(id: string) {
     return this.relativeModel.findByIdAndDelete(id).exec();
   }
