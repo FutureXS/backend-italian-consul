@@ -17,23 +17,7 @@ import { RelativesService } from './relatives.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateRelativeDto } from './dtos/create-relative.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import DocumentType from './enums/document-type.enum';
 import { UpdateRelativeDto } from './dtos/update-relative.dto';
-
-const filesInterceptorArray = [
-  {
-    name: DocumentType.BIRTH_DOCUMENT,
-    maxCount: 1,
-  },
-  {
-    name: DocumentType.WEDDING_DOCUMENT,
-    maxCount: 1,
-  },
-  {
-    name: DocumentType.DEATH_DOCUMENT,
-    maxCount: 1,
-  },
-];
 
 @Controller('relatives')
 export class RelativesController {
@@ -75,7 +59,12 @@ export class RelativesController {
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  @UseInterceptors(FileFieldsInterceptor(filesInterceptorArray))
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      RelativesService.filesInterceptorArray,
+      RelativesService.filesInterceptorOptions,
+    ),
+  )
   public async create(
     @Body() relativeDto: CreateRelativeDto,
     @UploadedFiles()
@@ -95,7 +84,12 @@ export class RelativesController {
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   @Patch(':relativeId')
-  @UseInterceptors(FileFieldsInterceptor(filesInterceptorArray))
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      RelativesService.filesInterceptorArray,
+      RelativesService.filesInterceptorOptions,
+    ),
+  )
   public async update(
     @Param('relativeId') relativeId: string,
     @Body() relativeDto: UpdateRelativeDto,
