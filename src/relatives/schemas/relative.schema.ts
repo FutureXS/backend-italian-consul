@@ -33,10 +33,8 @@ export class Relative {
 
   @Prop({
     required: false,
-    type: [Types.ObjectId],
-    ref: 'Relative',
   })
-  relatives: Relative[];
+  relatives: string;
 
   @Prop({
     required: false,

@@ -55,7 +55,7 @@ export class CreateRelativeDto {
     message: 'Relatives must be an array of strings',
     each: true,
   })
-  relatives: string[];
+  relatives: string;
 
   @Type(() => DocumentDto)
   @ValidateNested({

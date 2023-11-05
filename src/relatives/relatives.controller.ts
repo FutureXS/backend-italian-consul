@@ -19,6 +19,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import DocumentType from './enums/document-type.enum';
 import { UpdateRelativeDto } from './dtos/update-relative.dto';
 import { FileValidationDocumentsPipe } from './pipes/file-validation-documents.pipe';
+import { relative } from 'path';
 
 const filesInterceptorArray = [
   {
@@ -93,7 +94,7 @@ export class RelativesController {
   }
 
   @UseGuards(AuthGuard)
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
   @Patch(':relativeId')
   @UseInterceptors(FileFieldsInterceptor(filesInterceptorArray))
   public async update(

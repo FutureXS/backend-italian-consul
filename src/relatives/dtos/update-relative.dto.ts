@@ -54,10 +54,10 @@ export class UpdateRelativeDto {
 
   @IsOptional()
   @IsString({
-    message: 'Relatives must be an array of strings',
+    message: 'Relatives must be a string',
     each: true,
   })
-  relatives: string[];
+  relatives: string;
 
   @Type(() => DocumentDto)
   @ValidateNested({
