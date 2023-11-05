@@ -12,7 +12,7 @@ import collect from 'collect.js';
 import { MulterField } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import DocumentType from './enums/document-type.enum';
 import MimeType from './enums/mime-type.enum';
-import FileError from './enums/file-error.enum';
+import { FileErrorMessages } from './errors/file.error';
 
 @Injectable()
 export class RelativesService {
@@ -50,7 +50,7 @@ export class RelativesService {
       }
 
       return cb(
-        new BadRequestException(FileError.FILE_NOT_SUPPORTED.toString()),
+        new BadRequestException(FileErrorMessages.FILE_NOT_SUPPORTED),
         false,
       );
     },
