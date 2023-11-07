@@ -6,7 +6,6 @@ import express from 'express';
 
 const fs = require('fs');
 
-const file = fs.readFileSync('./4A4F5406C904654CDA832580B546F371.txt');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true }); // No explicit type for NestExpressApplication
