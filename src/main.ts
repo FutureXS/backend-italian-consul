@@ -13,9 +13,16 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-
-
-
+  const fileContent = fs.readFileSync('./4A4F5406C904654CDA832580B546F371.txt');
+  try { 
+  // Serve the file as a response
+  app.use('/.well-known/pki-validation/4A4F5406C904654CDA832580B546F371.txt', (req, res: any) => {
+    res.contentType('text/plain'); // Set the content type as needed
+    res.send(fileContent);
+  });
+} catch (error) {
+  console.error('Error reading file:', error);
+}
 
   const config = new DocumentBuilder()
     .setTitle('API Italian Consulate')
