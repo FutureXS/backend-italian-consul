@@ -13,27 +13,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-/*   app.get('/.well-known/pki-validation/4A4F5406C904654CDA832580B546F371.txt', (req, res) => {
-    res.sendFile('C:/Users/criti/OneDrive/Área de Trabalho/projects/backend-italian-consul/4A4F5406C904654CDA832580B546F371.txt');
-  }); */
 
-  try {
-    const fileContent = fs.readFileSync('./4A4F5406C904654CDA832580B546F371.txt');
-    
-    // Serve the file as a response
-    app.use('/.well-known/pki-validation/4A4F5406C904654CDA832580B546F371.txt', (req, res: any) => {
-      res.contentType('text/plain'); // Set the content type as needed
-      res.send(fileContent);
-    });
-  } catch (error) {
-    console.error('Error reading file:', error);
-  }
-  
- 
 
-  /* ) => {
-    res.sendFile('C:/Users/criti/OneDrive/Área de Trabalho/projects/backend-italian-consul/4A4F5406C904654CDA832580B546F371.txt');
-  }); */
+
 
   const config = new DocumentBuilder()
     .setTitle('API Italian Consulate')
