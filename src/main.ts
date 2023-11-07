@@ -2,13 +2,38 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { NestExpressApplication } from '@nestjs/platform-express'; // Import NestExpressApplication
-import * as express from 'express';
+import express from 'express';
+
+const fs = require('fs');
+
+const file = fs.readFileSync('./4A4F5406C904654CDA832580B546F371.txt');
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true }); // Enable CORS
+  const app = await NestFactory.create(AppModule, { cors: true }); // No explicit type for NestExpressApplication
 
   app.useGlobalPipes(new ValidationPipe());
+
+/*   app.get('/.well-known/pki-validation/4A4F5406C904654CDA832580B546F371.txt', (req, res) => {
+    res.sendFile('C:/Users/criti/OneDrive/Área de Trabalho/projects/backend-italian-consul/4A4F5406C904654CDA832580B546F371.txt');
+  }); */
+
+  try {
+    const fileContent = fs.readFileSync('./4A4F5406C904654CDA832580B546F371.txt');
+    
+    // Serve the file as a response
+    app.use('/.well-known/pki-validation/4A4F5406C904654CDA832580B546F371.txt', (req, res: any) => {
+      res.contentType('text/plain'); // Set the content type as needed
+      res.send(fileContent);
+    });
+  } catch (error) {
+    console.error('Error reading file:', error);
+  }
+  
+ 
+
+  /* ) => {
+    res.sendFile('C:/Users/criti/OneDrive/Área de Trabalho/projects/backend-italian-consul/4A4F5406C904654CDA832580B546F371.txt');
+  }); */
 
   const config = new DocumentBuilder()
     .setTitle('API Italian Consulate')
@@ -23,4 +48,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-

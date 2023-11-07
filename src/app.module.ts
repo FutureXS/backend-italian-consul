@@ -6,8 +6,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RolesGuard } from './roles/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { RelativesModule } from './relatives/relatives.module';
+import { WellKnownController  } from './validation/validation.controller';
 
 @Module({
+  controllers: [WellKnownController],
   imports: [
     AuthModule,
     UsersModule,
