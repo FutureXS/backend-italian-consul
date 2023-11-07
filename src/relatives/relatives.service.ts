@@ -1,12 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Relative } from './schemas/relative.schema';
 import { Model } from 'mongoose';
 import { CreateRelativeDto } from './dtos/create-relative.dto';
 import { UpdateRelativeDto } from './dtos/update-relative.dto';
+import collect from 'collect.js';
+import { MulterField } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import DocumentType from './enums/document-type.enum';
+import MimeType from './enums/mime-type.enum';
+import { FileErrorMessages } from './errors/file.error';
 
 @Injectable()
 export class RelativesService {
+  public static filesInterceptorArray: MulterField[] = [
+    {
+      name: DocumentType.BIRTH_DOCUMENT,
+      maxCount: 1,
+    },
+    {
+      name: DocumentType.WEDDING_DOCUMENT,
+      maxCount: 1,
+    },
+    {
+      name: DocumentType.DEATH_DOCUMENT,
+      maxCount: 1,
+    },
+  ];
+
+  public static filesInterceptorOptions = {
+    limits: {
+      fileSize: 3 * 1024 * 1024,
+    },
+    fileFilter: (req, file, cb) => {
+      const { mimetype } = file;
+
+      if (
+        [
+          MimeType.PDF.toString(),
+          MimeType.JPEG.toString(),
+          MimeType.JPG.toString(),
+          MimeType.PNG.toString(),
+        ].includes(mimetype)
+      ) {
+        return cb(null, true);
+      }
+
+      return cb(
+        new BadRequestException(FileErrorMessages.FILE_NOT_SUPPORTED),
+        false,
+      );
+    },
+  };
+
   constructor(
     @InjectModel(Relative.name) private relativeModel: Model<Relative>,
   ) {}
@@ -51,6 +100,8 @@ export class RelativesService {
       death_document?: Express.Multer.File[];
     },
   ) {
+    await this.validateFamily(relativeDto);
+
     const relative = new this.relativeModel({
       ...relativeDto,
       ...(files?.birth_document?.length && {
@@ -100,5 +151,29 @@ export class RelativesService {
 
   public async delete(id: string) {
     return this.relativeModel.findByIdAndDelete(id).exec();
+  }
+
+  private async validateFamily(relativeDto: CreateRelativeDto) {
+    const applicantRelatives = await this.relativeModel
+      .find({ applicant: relativeDto.applicant })
+      .exec();
+
+    if (applicantRelatives?.length <= 1) {
+      return true;
+    }
+
+    collect(applicantRelatives).each((applicantRelative) => {
+      const dataCollapsed = collect(relativeDto.documents_data).collapse();
+
+      const applicantRelativeExists = dataCollapsed
+        .where('name', applicantRelative.name)
+        .first();
+
+      if (!applicantRelativeExists) {
+        throw new NotFoundException(
+          `Relative ${applicantRelative.name} not found`,
+        );
+      }
+    });
   }
 }
