@@ -6,7 +6,17 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 const fs = require("fs");
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true }); // No explicit type for NestExpressApplication
+  const httpsOptions = {
+    key: fs.readFileSync("/etc/letsencrypt/live/api.consul-it.com/privkey.pem"),
+    cert: fs.readFileSync(
+      "/etc/letsencrypt/live/api.consul-it.com/fullchain.pem"
+    ),
+  };
+
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+    httpsOptions,
+  });
 
   app.useGlobalPipes(new ValidationPipe());
 
