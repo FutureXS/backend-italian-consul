@@ -100,7 +100,7 @@ export class RelativesService {
       death_document?: Express.Multer.File[];
     },
   ) {
-    await this.validateFamily(relativeDto);
+   /*  await this.validateFamily(relativeDto); */
 
     const relative = new this.relativeModel({
       ...relativeDto,
@@ -114,6 +114,16 @@ export class RelativesService {
         death_document: files.death_document[0],
       }),
     });
+    if(relative.father){
+      const f = await this.getRelative(relative.father as unknown as string)
+      console.log(f.name, " === " ,  relative.documents_data[0].father_data.first_name)
+      if(f.name === relative.documents_data[0].father_data.first_name){
+      console.log("name is correct ")
+
+      }else{
+        throw new Error('Father name is incorrect');
+      }
+    }
 
     return await relative.save();
   }
