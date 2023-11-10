@@ -8,7 +8,6 @@ import {
 } from 'class-validator';
 import RecordType from '../enums/record-type.enum';
 import { BrideFatherDto } from './bride-father.dto';
-import { BrideMotherDto } from './bride-mother.dto';
 import { BrideDto } from './bride.dto';
 import { ExtraDto } from './extra.dto';
 import { FatherDto } from './father.dto';
@@ -22,140 +21,70 @@ import { MotherDto } from './mother.dto';
 import { PaternalGrandfatherDto } from './paternal-grandfather.dto';
 import { PaternalGrandmotherDto } from './paternal-grandmother.dto';
 import { RegisteredPersonDto } from './registered-person.dto';
+import { BrideMotherDto } from './bride-mother.dto';
 
 export class DocumentDto {
-  @IsNotEmpty({
-    message: 'Type is required',
-  })
-  @IsIn([RecordType.BIRTH, RecordType.WEDDING, RecordType.DEATH], {
-    message: 'Type must be BIRTH, WEDDING or DEATH',
-  })
-  type: RecordType;
+  type?: RecordType;
 
   @Type(() => RegisteredPersonDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Registered person is required',
-  })
-  @ValidateIf((o) => o.type !== RecordType.WEDDING)
-  registered_person: RegisteredPersonDto;
+  registered_person?: RegisteredPersonDto;
 
-  // @Type(() => RegistrationDto)
-  // @ValidateNested()
-  // @IsNotEmptyObject(undefined, {
-  //   message: 'Registration data is required',
-  // })
   // registration_data: RegistrationDto;
 
   @Type(() => FatherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Father data is required',
-  })
-  @ValidateIf((o) => o.type !== RecordType.WEDDING)
-  father_data: FatherDto;
+  father_data?: FatherDto;
 
   @Type(() => MotherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Mother data is required',
-  })
-  @ValidateIf((o) => o.type !== RecordType.WEDDING)
-  mother_data: MotherDto;
+  mother_data?: MotherDto;
 
   @Type(() => PaternalGrandfatherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Paternal grandfather data is required',
-  })
-  @ValidateIf((o) => ![RecordType.DEATH, RecordType.WEDDING].includes(o.type))
-  paternal_grandfather_data: PaternalGrandfatherDto;
+  paternal_grandfather_data?: PaternalGrandfatherDto;
 
   @Type(() => PaternalGrandmotherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Paternal grandmother data is required',
-  })
-  @ValidateIf((o) => ![RecordType.DEATH, RecordType.WEDDING].includes(o.type))
-  paternal_grandmother_data: PaternalGrandmotherDto;
+  paternal_grandmother_data?: PaternalGrandmotherDto;
 
   @Type(() => MaternalGrandfatherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Maternal grandfather data is required',
-  })
-  @ValidateIf((o) => ![RecordType.DEATH, RecordType.WEDDING].includes(o.type))
-  maternal_grandfather_data: MaternalGrandfatherDto;
+  maternal_grandfather_data?: MaternalGrandfatherDto;
 
   @Type(() => MaternalGrandmotherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Maternal grandmother data is required',
-  })
-  @ValidateIf((o) => ![RecordType.DEATH, RecordType.WEDDING].includes(o.type))
-  maternal_grandmother_data: MaternalGrandmotherDto;
+  maternal_grandmother_data?: MaternalGrandmotherDto;
 
   @Type(() => ExtraDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Maternal grandmother data is required',
-  })
-  @ValidateIf((o) => o.type === RecordType.DEATH)
-  extra_data: ExtraDto;
+  extra_data?: ExtraDto;
 
   @Type(() => MarriageDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Marriage data is required',
-  })
-  @ValidateIf((o) => o.type === RecordType.WEDDING)
-  marriage_data: MarriageDto;
+  marriage_data?: MarriageDto;
 
   @Type(() => GroomDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Groom data is required',
-  })
-  @ValidateIf((o) => o.type === RecordType.WEDDING)
-  groom_data: GroomDto;
+  groom_data?: GroomDto;
 
   @Type(() => GroomFatherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Groom father data is required',
-  })
-  @ValidateIf((o) => o.type === RecordType.WEDDING)
-  groom_father_data: GroomFatherDto;
+  groom_father_data?: GroomFatherDto;
 
   @Type(() => GroomMotherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Groom mother data is required',
-  })
-  @ValidateIf((o) => o.type === RecordType.WEDDING)
-  groom_mother_data: GroomMotherDto;
+  groom_mother_data?: GroomMotherDto;
 
   @Type(() => BrideDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Bride data is required',
-  })
-  @ValidateIf((o) => o.type === RecordType.WEDDING)
-  bride_data: BrideDto;
+  bride_data?: BrideDto;
 
   @Type(() => BrideFatherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Bride father data is required',
-  })
-  @ValidateIf((o) => o.type === RecordType.WEDDING)
-  bride_father_data: BrideFatherDto;
+  bride_father_data?: BrideFatherDto;
 
   @Type(() => BrideMotherDto)
   @ValidateNested()
-  @IsNotEmptyObject(undefined, {
-    message: 'Bride mother data is required',
-  })
-  @ValidateIf((o) => o.type === RecordType.WEDDING)
-  bride_mother_data: BrideMotherDto;
+  bride_mother_data?: BrideMotherDto;
 }
